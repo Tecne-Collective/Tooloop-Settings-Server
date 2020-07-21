@@ -7,9 +7,9 @@ if [ $EUID != 0 ]; then
 fi
 
 apt install -y \
-    python-pip \
-    python-augeas \
-    python-crontab \
-    python-pexpect
+    python3-pip \
+    python3-augeas \
+    python3-crontab \
+    python3-pexpect
 
-pip install flask
+pip3 install flask
