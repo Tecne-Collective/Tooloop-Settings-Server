@@ -211,7 +211,8 @@ class System(object):
             # set new password
             child = pexpect.spawn('/usr/bin/passwd tooloop')
             # repeat it 2 times
-            for x in xrange(2):
+            # for x in xrange(2):
+            for x in range(2):
                 child.expect('.*')
                 child.sendline(new_password)
                 time.sleep(0.1)
@@ -307,15 +308,19 @@ class System(object):
         
 
     def setup_runtime_schedule(self):
-        crontab = CronTab(user='tooloop')
+        #TODO GORKA change user
+        crontab = CronTab(user='protean')
         
         # empty wakealarm
         call('echo 0 > /sys/class/rtc/rtc0/wakealarm', shell=True)
 
         # remove cron jobs
-        crontab.remove_all('display-on')
-        crontab.remove_all('poweroff')
-        crontab.remove_all('blackout')
+        crontab.remove_all(cmd='display-on')
+        crontab.remove_all(cmd='poweroff')
+        crontab.remove_all(cmd='blackout')
+        # crontab.remove_all('display-on')
+        # crontab.remove_all('poweroff')
+        # crontab.remove_all('blackout')
         crontab.write()
 
         # start up
