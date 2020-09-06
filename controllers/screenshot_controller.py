@@ -37,7 +37,7 @@ class Screenshots(object):
 
     def grab_screenshot(self):
         try:
-            call('su tooloop -c "/opt/tooloop/scripts/tooloop-screenshot"', shell=True)
+            call('su protean -c "/opt/tooloop/scripts/tooloop-screenshot"', shell=True)
             return self.get_latest_screenshot()
         except Exception as e:
             raise

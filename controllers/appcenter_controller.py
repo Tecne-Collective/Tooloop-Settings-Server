@@ -181,9 +181,9 @@ class AppCenter(object):
             copytree(self.app_path+app+'/presentation', '/assets/presentation')
 
             # chown everything to tooloop user
-            self.chown_recursive(self.root_path, 'tooloop', 'tooloop')
-            self.chown_recursive('/assets/data', 'tooloop', 'tooloop')
-            self.chown_recursive('/assets/presentation', 'tooloop', 'tooloop')
+            self.chown_recursive(self.root_path, 'protean', 'protean')
+            self.chown_recursive('/assets/data', 'protean', 'protean')
+            self.chown_recursive('/assets/presentation', 'protean', 'protean')
 
             # restart presentation
             self.presentation.start()

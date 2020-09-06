@@ -10,17 +10,17 @@ class Services(object):
 
 
     def is_vnc_running(self):
-        ps = Popen('su tooloop -c "systemctl --user status x11vnc" | grep "active (running)"', shell=True, stdout=PIPE)
+        ps = Popen('su protean -c "systemctl --user status x11vnc" | grep "active (running)"', shell=True, stdout=PIPE)
         output = ps.stdout.read()
         ps.stdout.close()
         ps.wait()
         return output != ""
 
     def enable_vnc(self):
-        call('su tooloop -c "/opt/tooloop/scripts/tooloop-vnc-enable"', shell=True)
+        call('su protean -c "/opt/tooloop/scripts/tooloop-vnc-enable"', shell=True)
 
     def disable_vnc(self):
-        call('su tooloop -c "/opt/tooloop/scripts/tooloop-vnc-disable"', shell=True)
+        call('su protean -c "/opt/tooloop/scripts/tooloop-vnc-disable"', shell=True)
 
 
     def is_ssh_running(self):
@@ -56,21 +56,21 @@ class Services(object):
 
 
     def is_screenshot_service_running(self):
-        crontab = CronTab(user='tooloop')
+        crontab = CronTab(user='protean')
         for job in crontab:
             if job.command == 'env DISPLAY=:0.0 /opt/tooloop/scripts/tooloop-screenshot' and job.is_enabled():
                 return True
         return False
 
     def enable_screenshot_service(self):
-        crontab = CronTab(user='tooloop')
+        crontab = CronTab(user='protean')
         for job in crontab:
             if job.command == 'env DISPLAY=:0.0 /opt/tooloop/scripts/tooloop-screenshot' and not job.is_enabled():
                 job.enable()
         crontab.write()
 
     def disable_screenshot_service(self):
-        crontab = CronTab(user='tooloop')
+        crontab = CronTab(user='protean')
         for job in crontab:
             if job.command == 'env DISPLAY=:0.0 /opt/tooloop/scripts/tooloop-screenshot' and job.is_enabled():
                 job.enable(False)

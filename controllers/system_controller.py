@@ -88,15 +88,16 @@ class System(object):
 
     def get_ip(self):
         try:
-            return check_output(['hostname', '-I']).rstrip('\n').split()
+            return check_output(['hostname', '-I']).rstrip().split()
         except IndexError as e:
             return ''
         except Exception as e:
             raise
 
     def get_uptime(self):
-        uptime_string = check_output(['uptime', '-s']).rstrip('\n')
-        uptime = gmtime_from_string(uptime_string, '%Y-%m-%d %H:%M:%S')
+        uptime_string = check_output(['uptime', '-s']).rstrip()
+        print(uptime_string)
+        uptime = gmtime_from_string(uptime_string.decode("utf-8"),'%Y-%m-%d %H:%M:%S')
         return uptime
 
     def get_hd(self):
@@ -202,7 +203,7 @@ class System(object):
 
     def set_password(self, old_password, new_password):        
         # test if current password is correct
-        child = pexpect.spawn('/usr/bin/sudo -u tooloop /usr/bin/passwd tooloop')
+        child = pexpect.spawn('/usr/bin/sudo -u protean /usr/bin/passwd tooloop')
         child.expect('.*current.*')
         child.sendline(old_password)
         child.expect('.*password.*')
@@ -228,7 +229,7 @@ class System(object):
 
     def get_audio_volume(self):
         try:
-            for line in check_output('su tooloop -c "pactl --server=/run/user/1000/pulse/native list sinks"', shell=True).split('\n'):
+            for line in check_output('su protean -c "pactl --server=/run/user/1000/pulse/native list sinks"', shell=True).split('\n'):
                 # find the output lint with the volume
                 if 'Volume' in line and not 'Base' in line:
                     # find the first channels’ volume as we are ignoring separate channels
@@ -239,15 +240,15 @@ class System(object):
             return 0
 
     def set_audio_volume(self, volume):
-        call('su tooloop -c "pactl --server=/run/user/1000/pulse/native set-sink-volume 0 '+str(volume)+'%"', shell=True)
+        call('su protean -c "pactl --server=/run/user/1000/pulse/native set-sink-volume 0 '+str(volume)+'%"', shell=True)
 
     def set_audio_mute(self, mute):
         mute_param = '1' if mute else '0'
-        call('su tooloop -c "pactl --server=/run/user/1000/pulse/native set-sink-mute 0 '+mute_param+'"', shell=True)
+        call('su protean -c "pactl --server=/run/user/1000/pulse/native set-sink-mute 0 '+mute_param+'"', shell=True)
 
     def get_audio_mute(self):
         try:
-            for line in check_output('su tooloop -c "pactl --server=/run/user/1000/pulse/native list sinks"', shell=True).split('\n'):
+            for line in check_output('su protean -c "pactl --server=/run/user/1000/pulse/native list sinks"', shell=True).split('\n'):
                 if 'Mute' in line:
                     return 'yes' in line
         except Exception as e:
@@ -346,6 +347,7 @@ class System(object):
             job.minute.on(self.runtime_schedule['shutdown']['time']['minutes'])
             job.dow.on(*self.runtime_schedule['shutdown']['weekdays'])
             crontab.write()
+        print("Runtime schedule configured")
 
 
 
