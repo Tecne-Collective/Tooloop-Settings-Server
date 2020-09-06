@@ -1,0 +1,4 @@
+pexpect>=4.8.0
+python-crontab>=2.5.1
+Flask>=1.1.2
+Jinja2>=2.11.2
