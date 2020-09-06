@@ -88,7 +88,9 @@ class System(object):
 
     def get_ip(self):
         try:
-            return check_output(['hostname', '-I']).rstrip().split()
+            str = ""
+            str = check_output(['hostname', '-I']).rstrip().split()
+            return str
         except IndexError as e:
             return ''
         except Exception as e:

@@ -31,7 +31,7 @@
             <td class="label-column">Remote access</td>
             <td class="value-column">
                 <span style="white-space: nowrap;">
-                    {% if ssh_running %}<button onclick="document.location='ssh://tooloop@{{ip_address}}'">SSH</button>{% endif %}
+                    {% if ssh_running %}<button onclick="document.location='ssh://protean@{{ip_address}}'">SSH</button>{% endif %}
                     {% if vnc_running %}<button onclick="document.location='vnc://{{ip_address}}'">Screen sharing</button>{% endif %}
                 </span>
             </td>
@@ -54,7 +54,7 @@
             <div id="startup-schedule-widget">
                 <input 
                     type="checkbox"
-                    {% if runtime_schedule.startup.enabled %}checked{% endif %}
+                    {#{% if runtime_schedule.startup.enabled %}checked{% endif %} #}
                     id="startup-switch" 
                     name="startup-switch" 
                     class="switch">
@@ -69,8 +69,8 @@
                             {% for key, value in day.items() %}
                                 <input 
                                     type="checkbox" 
-                                    {% if outer_loop.index in runtime_schedule.startup.weekdays %}checked{% endif %}
-                                    {% if not runtime_schedule.startup.enabled %}disabled{% endif %}
+                                    {# {% if outer_loop.index in runtime_schedule.startup.weekdays %}checked{% endif %} #}
+                                    {# {% if not runtime_schedule.startup.enabled %}disabled{% endif %} #}
                                     id="startup-{{value|lower}}-toggle-button" 
                                     name="startup-{{value|lower}}-toggle-button" 
                                     class="toggle-button">
@@ -79,15 +79,15 @@
                         {% endfor %}
                     </div>
                     &nbsp;at&nbsp;
-                    <select id="startup-time-hours-select"{% if not runtime_schedule.startup.enabled %} disabled{% endif %}>
+                    <select id="startup-time-hours-select"{# % if not runtime_schedule.startup.enabled % #} disabled{# % endif % #}>
                         {% for hours in range(0,24) %}
-                            <option value="{{hours}}"{% if runtime_schedule.startup.time.hours == hours %} selected{% endif %}>{{ '%02d' % hours }}</option>
+                            <option value="{{hours}}"{#% if runtime_schedule.startup.time.hours == hours % #} selected{# % endif % #}>{{ '%02d' % hours }}</option>
                         {% endfor %}
                     </select>
                     :
-                    <select id="startup-time-minutes-select"{% if not runtime_schedule.startup.enabled %} disabled{% endif %}>
+                    <select id="startup-time-minutes-select"{# % if not runtime_schedule.startup.enabled % #}  disabled{# % endif % #}>
                         {% for minutes in range(0,12) %}
-                            <option value="{{minutes*5}}"{% if (runtime_schedule.startup.time.minutes/5) == minutes %} selected{% endif %}>{{ '%02d' % (minutes*5) }}</option>
+                            <option value="{{minutes*5}}"{# % if (runtime_schedule.startup.time.minutes/5) == minutes % #} selected{# % endif % #}>{{ '%02d' % (minutes*5) }}</option>
                         {% endfor %}
                     </select>.
                 </div>
@@ -95,14 +95,14 @@
             <div id="shutdown-schedule-widget">
                 <input 
                     type="checkbox"
-                    {% if runtime_schedule.shutdown.enabled %}checked{% endif %}
+                    {# % if runtime_schedule.shutdown.enabled % #}checked{# % endif % #}
                     id="shutdown-switch" 
                     name="shutdown-switch" 
                     class="switch">
                 <label for="shutdown-switch">&nbsp;</label>
-                <select id="shutdown-type-select"{% if not runtime_schedule.shutdown.enabled %} disabled{% endif %}>
-                    <option value="poweroff"{% if runtime_schedule.shutdown.type == 'poweroff' %} selected{% endif %}>Power off</option>
-                    <option value="blackout"{% if runtime_schedule.shutdown.type == 'blackout' %} selected{% endif %}>Black out</option>
+                <select id="shutdown-type-select"{# % if not runtime_schedule.shutdown.enabled % #} disabled{# % endif % #}>
+                    <option value="poweroff"{# % if runtime_schedule.shutdown.type == 'poweroff' % #} selected{# % endif % #}>Power off</option>
+                    <option value="blackout"{# % if runtime_schedule.shutdown.type == 'blackout' % #} selected{#% endif %#}>Black out</option>
                 </select>
                 <div style="margin: 0.5rem 0 0 3.55rem;">
                     every&nbsp;
@@ -112,8 +112,8 @@
                             {% for key, value in day.items() %}
                                 <input 
                                     type="checkbox" 
-                                    {% if outer_loop.index in runtime_schedule.shutdown.weekdays %}checked{% endif %}
-                                    {% if not runtime_schedule.shutdown.enabled %}disabled{% endif %}
+                                    {#% if outer_loop.index in runtime_schedule.shutdown.weekdays %#}checked{#% endif %#}
+                                    {#% if not runtime_schedule.shutdown.enabled %#}disabled{#% endif %#}
                                     id="shutdown-{{value|lower}}-toggle-button" 
                                     name="shutdown-{{value|lower}}-toggle-button" 
                                     class="toggle-button">
@@ -122,15 +122,15 @@
                         {% endfor %}
                     </div>
                     &nbsp;at&nbsp;
-                    <select id="shutdown-time-hours-select"{% if not runtime_schedule.shutdown.enabled %} disabled{% endif %}>
+                    <select id="shutdown-time-hours-select"{#% if not runtime_schedule.shutdown.enabled %#} disabled{#% endif %#}>
                         {% for hours in range(0,24) %}
-                            <option value="{{hours}}"{% if runtime_schedule.shutdown.time.hours == hours %} selected{% endif %}>{{ '%02d' % hours }}</option>
+                            <option value="{{hours}}"{#% if runtime_schedule.shutdown.time.hours == hours %#} selected{#% endif %#}>{{ '%02d' % hours }}</option>
                         {% endfor %}
                     </select>
                     :
-                    <select id="shutdown-time-minutes-select"{% if not runtime_schedule.shutdown.enabled %} disabled{% endif %}>
+                    <select id="shutdown-time-minutes-select"{#% if not runtime_schedule.shutdown.enabled %#} disabled{#% endif %#}>
                         {% for minutes in range(0,12) %}
-                            <option value="{{minutes*5}}"{% if (runtime_schedule.shutdown.time.minutes/5) == minutes %} selected{% endif %}>{{ '%02d' % (minutes*5) }}</option>
+                            <option value="{{minutes*5}}"{#% if (runtime_schedule.shutdown.time.minutes/5) == minutes %#} selected{#% endif %#}>{{ '%02d' % (minutes*5) }}</option>
 
                         {% endfor %}
                     </select>.
